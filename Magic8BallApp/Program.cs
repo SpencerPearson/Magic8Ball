@@ -1,21 +1,21 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Magic8BallApp
+namespace _01_Monday
 {
-    public class Program
+    class Magic8Ball
     {
         static void Main(string[] args)
         {
             /*
-             * REQUIREMENTS:
-             * 1. Ask the user for their yes/no question
-             * 2. Respond with a random answer from your set (collection of answers).
-             * 3. Set the program to loop based on user choice
-             */
+            * REQUIREMENTS:
+            * 1. Ask the user for their yes/no question
+            * 2. Respond with a random answer from your set (collection of answers).
+            * 3. Set the program to loop based on user choice
+            */
             Console.WriteLine("Magic 8 Ball Version 1.1");
             Console.WriteLine("" +
                 @"        ____
@@ -36,7 +36,7 @@ Y8GGGGGG8888888@@@@P.....
             bool confirm = false;
             while (!confirm)
             {
-            ask: Console.WriteLine("Ask your yes or no question: ");
+                Console.WriteLine("Ask your yes or no question: ");
                 string question = Console.ReadLine();
                 Console.Clear();
                 while (!confirm)
@@ -54,18 +54,21 @@ Y8GGGGGG8888888@@@@P.....
                             break;
                         default:
                             Console.Clear();
-                            goto ask;
+                            Console.WriteLine("Ok, you can try again!\nAsk your yes or no question: ");
+                            question = Console.ReadLine();
+                            //goto ask;
+                            break;
                     }
                 }
                 bool look = false;
+                int shakes = 1;
                 while (!look)
                 {
-                    int shakes = 0;
-                shakeIt: Random rand = new Random();
+
+                    Random rand = new Random();
                     int currentRoll = rand.Next(1, 21);
                     Console.Clear();
-                    shakes++;
-                whoops: Console.WriteLine("You shook the 8 ball {0} time{1}, shake again?", shakes, shakes == 1 ? "" : "s");
+                    Console.WriteLine("You shook the 8 ball {0} time{1}, shake again?", shakes, shakes == 1 ? "" : "s");
                     Console.WriteLine("Type 'S' to shake again or 'L' to look at your answer.");
                     ConsoleKey shakeChoice = Console.ReadKey(true).Key;
                     switch (shakeChoice)
@@ -74,7 +77,9 @@ Y8GGGGGG8888888@@@@P.....
                             Console.Clear();
                             Console.WriteLine("Shake, shake, shake!");
                             System.Threading.Thread.Sleep(1200);
-                            goto shakeIt;
+                            currentRoll = rand.Next(1, 21);
+                            shakes++;
+                            continue;
                         case ConsoleKey.L:
                             Console.Clear();
                             Console.WriteLine("The blue answer die floats toward the viewing window...");
@@ -86,27 +91,33 @@ Y8GGGGGG8888888@@@@P.....
                             Console.WriteLine("Input invalid, please try again.");
                             System.Threading.Thread.Sleep(2000);
                             Console.Clear();
-                            goto whoops;
+                            continue;
                     }
                 }
                 System.Threading.Thread.Sleep(2000);
-            again: Console.Write("Would you like to ask another question? Y/N: ");
+                Console.Write("Would you like to ask another question? Y/N: ");
                 ConsoleKey yesOrNo = Console.ReadKey(true).Key;
-                switch (yesOrNo)
+                bool problemChild = true;
+                while (problemChild)
                 {
-                    case ConsoleKey.Y:
-                        Console.Clear();
-                        goto ask;
-                    case ConsoleKey.N:
-                        Console.WriteLine("Thanks for playing. Goodbye!");
-                        break;
-                    default:
-                        Console.Clear();
-                        Console.WriteLine("Invalid input, please try again.");
-                        System.Threading.Thread.Sleep(2000);
-                        goto again;
+                    switch (yesOrNo)
+                    {
+                        case ConsoleKey.Y:
+                            Console.Clear();
+                            confirm = false;
+                            problemChild = false;
+                            break;
+                        case ConsoleKey.N:
+                            Console.WriteLine("Thanks for playing. Goodbye!");
+                            problemChild = false;
+                            break;
+                        default:
+                            Console.Clear();
+                            Console.WriteLine("Invalid input, please try again.");
+                            System.Threading.Thread.Sleep(2000);
+                            continue;
+                    }
                 }
-
             }
         }
     }
