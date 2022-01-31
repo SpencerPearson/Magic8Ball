@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _01_Monday
+namespace Magic8BallApp
 {
-    class Magic8Ball
+    public class Program
     {
         static void Main(string[] args)
         {
